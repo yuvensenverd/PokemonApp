@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { CAPTURE, RELEASE, ADD_POKEMON, GET_INIT_POKEMONS } from './types';
+import { ADD_POKEMON, GET_INIT_POKEMONS } from './types';
 
 // const getCapturedPokemons = (capturedPokemons, releasedPokemon) =>
 //   capturedPokemons.filter(pokemon => pokemon !== releasedPokemon)
@@ -31,14 +31,9 @@ const getInitPokemons = (pokemons, count, state) => ({
 
 const pokemonReducer = (state, action) => {
   switch (action.type) {
-    // case CAPTURE:
-    //   return capturePokemon(action.pokemon, state);
-    // case RELEASE:
-    //   return releasePokemon(action.pokemon, state);
     case ADD_POKEMON:
       return addPokemon(action.pokemon, state);
     case GET_INIT_POKEMONS:
-        // console.log(action)
       return getInitPokemons(action.pokemons, action.count, state);
     default:
       return state;

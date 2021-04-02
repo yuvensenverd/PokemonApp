@@ -14,7 +14,7 @@ export default () => {
                 Pokemon List
             </div>
           </Link>
-          <Link to="/poke-list">
+          <Link to="/poke-list/my-pokemon">
             <div className="btn btn-primary mb-4">
                 My Pokemon
             </div>

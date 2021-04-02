@@ -20,7 +20,7 @@ export default ({}) => {
 //   console.log(pokemonTotalCount)
 
   useEffect(() => {
-    const getPokemons = async () => {
+    const getPokemons = () => {
       Axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${(queryPage-1)*limit}&limit=20`)
         .then(res => {
             console.log(res)

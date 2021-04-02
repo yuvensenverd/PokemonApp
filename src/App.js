@@ -15,7 +15,7 @@ const App = () => {
     <PokemonProvider>
       <div className="container">
         <div className="row body-app">
-          <div className="col-12 p-0">
+          <div className="col-12 p-0 m-0">
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route path="/poke-list" component={PokemonListRoute} />

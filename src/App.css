@@ -44,3 +44,120 @@
 .w-full {
   width: 100%;
 }
+
+.pokemon-cards {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding : 1rem;
+  border: 1px solid black;
+  background-color: #b3b3b3;
+}
+
+.catch-button {
+  display: flex;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #e74c3c;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bolder;
+  cursor: pointer;
+  
+}
+
+.catch-button:hover {
+  transition: 0.25s background-color;
+  background-color: #c54133;
+  animation: shake 1s reverse  cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.pokemon-type-badge {
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bolder;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.pokemon-type-badge.normal {
+  background-color: #bbbbad;
+}
+.pokemon-type-badge.grass {
+  background-color: #8cd750;
+}
+.pokemon-type-badge.fire {
+  background-color: #fa5543;
+}
+.pokemon-type-badge.water {
+  background-color: #56adff;
+}
+.pokemon-type-badge.fighting {
+  background-color: #a65544;
+}
+.pokemon-type-badge.flying {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.poison {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.ground {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.rock {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.bug {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.ghost {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.electric {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.psychic {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.ice {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.dragon {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.dark {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.steel {
+  background-color: #77a2ff;
+}
+.pokemon-type-badge.fairy {
+  background-color: #77a2ff;
+}
+
+.MuiTab-root { 
+  font-weight: 900 !important;
+  font-size: 1rem !important;
+}
