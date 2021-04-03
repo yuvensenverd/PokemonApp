@@ -1,26 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import pokeball from '../images/pokeball.png'
+import backpack from '../images/backpack.png'
 
 export default () => {
   
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center h-full">
-      <h1 className="mb-3">This is Home</h1>
+      <h1 className="mb-4">Pokémon App</h1>
       <div className="d-flex flex-column justify-content-center align-items-center">
-          <Link to="/poke-list">
-            <div className="btn btn-danger mb-4">
-                Pokemon List
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <div className="d-flex flex-column justify-content-center align-items-center">
+              <Link to="/poke-list" style={{textDecoration : 'none'}}>
+                <div className="home-menu list">
+                  <img src={pokeball} height={'50px'} width={'50px'}/>
+                
+                    <h4 className="mt-3">
+                      Pokémon List
+                    </h4>
+                
+              
+                </div>
+                </Link>
+              </div>
             </div>
-          </Link>
-          <Link to="/poke-list/my-pokemon">
-            <div className="btn btn-primary mb-4">
-                My Pokemon
+            <div className="col-md-6">
+            <div className="d-flex flex-column justify-content-center align-items-center">
+            <Link to="/poke-list/my-pokemon" style={{textDecoration : 'none'}}>
+              <div className="home-menu mypokemon">
+            
+                <img src={backpack} height={'50px'} width={'50px'}/>
+                <h4 className="mt-3">
+
+                  My Pokémon
+                </h4>
+               
+              </div>
+              </Link>
+              </div>
             </div>
-          </Link>
+          </div>
       </div>
-      
     </div>
   );
 };

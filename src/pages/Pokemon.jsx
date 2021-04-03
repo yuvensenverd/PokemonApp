@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import _ from 'lodash';
 import pokeball from '../images/pokeball.png'
 import Tabs from '@material-ui/core/Tabs';
@@ -9,61 +9,114 @@ import Carousel from 'nuka-carousel'
 import Typography from '@material-ui/core/Typography';
 import TypesLogo from './TypesLogo.jsx';
 import Swal from 'sweetalert2';
+import Pagination from '@material-ui/lab/Pagination';
+import StatRating from './StatRatings';
+import { PokemonContext } from './PokemonContext';
 
 
 
 export default ({ data }) => {
 
     const [value, setValue] = useState(0)
+    const [movesListPage, setMovesListPage] = useState(1)
+    const movesListLimit = 10
+
 
     const handleChange = (e, value) => {
-        console.log(value)
+        // console.log(value)
         setValue(value)
     }
-    const handleChangeIndex = (value) =>{
-        setValue(value)
-    }
-
     if(!_.isEmpty(data)){
+        console.log(data)
+        const { myPokemonList, catchPokemon  } = useContext(PokemonContext);
+        const { sprites, moves, types, name, id, abilities, stats } = data.data
+        const { url } = data.config
 
-        // console.log('masuks')
-        const { sprites, moves, types, name, order, abilities, stats } = data 
-
-        const catchPokemon = () => {
+        const onCatchClick = () => {
             let num = Math.random()
-            if(num > 0.5){
-                Swal.fire({
-                    title: `${name} was caught!`,
-                    text: ` Give your new ${name} a nickname`,
-                    imageUrl: `${sprites.front_default}`,
-                    imageWidth: 250,
-                    imageHeight: 200,
-                    imageAlt: 'name',
-                    // title: ``,
-                    input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    showCancelButton: true,
-                    showConfirmButton: true,
-                    confirmButtonText : 'Confirm'
+            // let timerInterval;
+            Swal.fire({
+                title: 'Catching...',
+                imageUrl: `${pokeball}`,
+                imageWidth: 200,
+                imageHeight: 200,
+                imageAlt: 'pokeball',
+                timer: 1000,
+                showCloseButton :false,
+                showConfirmButton : false
+            }).then(() => {
+                if(num > 0.5 ){
                     
-                })
-            }else {
-                window.alert('failed!')
-            }
+                    Swal.fire({
+                        title: `${name} was caught!`,
+                        text: ` Give your new ${name} a nickname`,
+                        imageUrl: `${sprites.front_default}`,
+                        imageWidth: 250,
+                        imageHeight: 200,
+                        imageAlt: 'name',
+                        // title: ``,
+                        input: 'text',
+                        inputAttributes: {
+                            autocapitalize: 'off'
+                        },
+                        showCancelButton: true,
+                        showConfirmButton: true,
+                        confirmButtonText : 'Confirm',
+                        preConfirm: (value) => {
+                            let listName = myPokemonList.map(val => val.nickname)
+                            if(listName.indexOf(value) !== -1){
+                                Swal.showValidationMessage(
+                                    `nickname ${data.nickname} is already in use! please choose a different nickname!`
+                                )
+                            }
+                            
+                        }
+                        
+                    }).then((results2) => {
+                        console.log(results2)
+                        if(results2.isConfirmed){
+                            const data = {
+                                nickname : results2.value,
+                                avatar : sprites.front_default,
+                                name,
+                                url
+                            }
+                    
+                            // console.log(listName)
+                            // if(listName.indexOf(data.nickname) !== -1){
+                            //     window.alert(`nickname ${data.nickname} is already in use! please choose a different nickname!`)
+                               
+                            // }else {
+                                catchPokemon(data)
+                                Swal.fire(
+                                    'Success!',
+                                    'You can now view your new pokemon in your list!',
+                                    'success'
+                                )
+                            // }
+                        }
+                    })
+                }else {
+                    Swal.fire(
+                        'Catch Failed :( ',
+                        'Unfortunate! Keep trying!',
+                        'error'
+                    )
+                }
+            })
+            
         }
       
         const renderPokemonCards = (images, name) => {
             const printOrder=(num)=> {
                 num = num.toString();
-                while (num.length < 3) num = "0" + num;
+                while (num.length < 4) num = "0" + num;
                 return num;
             }
             return(
               <div className="pokemon-cards">
                   <div className="d-flex flex-column">
-                      <h4 className="text-center">ID{printOrder(order)}</h4>
+                      <h4 className="text-center">ID{printOrder(id)}</h4>
                       <div className="d-flex flex-row justify-content-center">
                         <img src={images.front_default} height={150} width={150}/>
                       </div>
@@ -75,9 +128,18 @@ export default ({ data }) => {
 
         const renderCatchButton = () => {
             return (
-                <div className="catch-button mt-3" onClick={()=>catchPokemon()}>
+                <div className="catch-button mt-3" onClick={()=>onCatchClick()}>
                     <img src={pokeball} height={35} width={35} className="mr-2"/>
                     Catch!
+                </div>
+            )
+        }
+
+        const renderPokemonStat = (stats) => {
+            return (
+                <div>
+                    <h3 className="my-3">Stats</h3>
+                    <StatRating stat={stats}/>
                 </div>
             )
         }
@@ -142,14 +204,15 @@ export default ({ data }) => {
             }
        
             const movesContent = (moves) => {
+                data = moves.slice(((movesListPage-1)*movesListLimit), movesListPage*movesListLimit)
                 return (
                     <div>
                         { 
-                            moves.map((val,id)=>{
+                            data.map((val,id)=>{
                                 //val.ability.url for details
                                 return (
                                     <div className="mb-2">
-                                        <h4>{id+1+'. '}{val.move.name}</h4>
+                                        <h5>{((movesListPage-1)*10)+(id+1)+'. '}{val.move.name}</h5>
                                     </div>
                                 )
                             })
@@ -158,11 +221,20 @@ export default ({ data }) => {
                 )
             }
             return (
-                <Carousel disableEdgeSwiping withoutControls  slideIndex={value}>
-                  
+                <Carousel disableEdgeSwiping withoutControls  slideIndex={value} height={'500px'} dragging={false} swiping={false} style={{outline : 0}}>
                     {abilitiesContent(abilities)}
-                    {movesContent(moves)}
-                    
+                    <div>
+                        {movesContent(moves)}
+                        <div className="mt-3 d-flex flex-row justify-content-center align-items-center">
+                            <Pagination
+                                count={Math.ceil(moves.length / movesListLimit)}
+                                page={movesListPage}
+                                onChange={(e, page) => setMovesListPage(page)}
+                                color="secondary"
+                                siblingCount={1}
+                            />
+                        </div>
+                    </div>
                 </Carousel>
             )
 
@@ -174,6 +246,7 @@ export default ({ data }) => {
                   <div className="col-md-4">
                       {renderPokemonCards(sprites, name)}
                       {renderCatchButton()}
+                      {renderPokemonStat(stats)}
                   </div>
                   <div className="col-md-8">
                       {renderPokemonTypes(types)}

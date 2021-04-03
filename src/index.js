@@ -5,12 +5,15 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { PokemonProvider } from './pages/PokemonContext';
 
 ReactDOM.render(
   <React.StrictMode>
+      <PokemonProvider>
        <BrowserRouter>
           <App />
        </BrowserRouter>
+       </PokemonProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

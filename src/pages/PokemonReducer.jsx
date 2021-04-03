@@ -1,40 +1,70 @@
 import { useReducer } from 'react';
-import { ADD_POKEMON, GET_INIT_POKEMONS } from './types';
-
-// const getCapturedPokemons = (capturedPokemons, releasedPokemon) =>
-//   capturedPokemons.filter(pokemon => pokemon !== releasedPokemon)
-
-// const releasePokemon = (releasedPokemon, state) => ({
-//   pokemons: [...state.pokemons, releasedPokemon],
-//   capturedPokemons: getCapturedPokemons(state.capturedPokemons, releasedPokemon)
-// });
-
-// const getPokemonsList = (pokemons, capturedPokemon) =>
-//   pokemons.filter(pokemon => pokemon !== capturedPokemon)
-
-// const capturePokemon = (pokemon, state) => ({
-//   pokemons: getPokemonsList(state.pokemons, pokemon),
-//   capturedPokemons: [...state.capturedPokemons, pokemon]
-// });
-
-const addPokemon = (pokemon, state) => ({
-  pokemons: [...state.pokemons, pokemon],
-  capturedPokemons: state.capturedPokemons
-});
+import { GET_INIT_POKEMONS, CATCH_POKEMON, GET_CATCHED_FROM_STORAGE, RELEASE_POKEMON, HANDLE_LOADING } from './types';
 
 const getInitPokemons = (pokemons, count, state) => ({
-
+  ...state,
   pokemons: pokemons,
-  capturedPokemons: state.capturedPokemons,
   pokemonTotalCount : count
 });
 
+const catchPokemon = (pokemonCatched, state) => {
+  localStorage.setItem('my-pokemon-list', JSON.stringify([...state.myPokemonList, pokemonCatched]) )
+  return {
+    ...state,
+    myPokemonList: [...state.myPokemonList, pokemonCatched]
+  }
+}
+
+const releasePokemon = (index, state) => {
+
+  let newArr = [...state.myPokemonList]
+  newArr.splice(index,1)
+  localStorage.setItem('my-pokemon-list', JSON.stringify([...newArr]) )
+
+  return {
+    ...state,
+    myPokemonList: [...newArr]
+  }
+}
+
+const getMyPokemonList = (pokemonList, state) => {
+  return {
+    ...state,
+    pokemons: state.pokemons,
+    pokemonTotalCount : state.pokemonTotalCount,
+    myPokemonList: pokemonList
+  }
+}
+
+const handleLoading = (loading, state) => {
+  console.log({
+    ...state,
+    loading: loading
+  })
+
+  return {
+    ...state,
+    loading: loading
+  }
+}
+
+
+
+
+
+
 const pokemonReducer = (state, action) => {
   switch (action.type) {
-    case ADD_POKEMON:
-      return addPokemon(action.pokemon, state);
     case GET_INIT_POKEMONS:
       return getInitPokemons(action.pokemons, action.count, state);
+    case CATCH_POKEMON:
+      return catchPokemon(action.pokemonCatched, state);
+    case HANDLE_LOADING:
+      return handleLoading(action.loading, state);
+    case RELEASE_POKEMON:
+      return releasePokemon(action.index, state);
+    case GET_CATCHED_FROM_STORAGE : 
+      return getMyPokemonList(action.pokemonList, state)
     default:
       return state;
   }
@@ -43,6 +73,7 @@ const pokemonReducer = (state, action) => {
 export const usePokemonReducer = () =>
   useReducer(pokemonReducer, {
     pokemons: [],
-    capturedPokemons: [],
-    pokemonTotalCount : 0
+    myPokemonList: [],
+    pokemonTotalCount : 0,
+    loading : false
   });

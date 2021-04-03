@@ -1,22 +1,28 @@
 import React, { createContext } from 'react';
 import { usePokemonReducer } from './PokemonReducer';
-import { CAPTURE, RELEASE, ADD_POKEMON, GET_INIT_POKEMONS } from './types';
+import { HANDLE_LOADING, GET_INIT_POKEMONS, CATCH_POKEMON, GET_CATCHED_FROM_STORAGE, RELEASE_POKEMON } from './types';
 
 const PokemonContext = createContext();
 
 const PokemonProvider = (props) => {
   const [state, dispatch] = usePokemonReducer();
-  const { pokemons, capturedPokemons, pokemonTotalCount } = state;
-  const addPokemon = (pokemon) => dispatch({ type: ADD_POKEMON, pokemon });
+  const { pokemons, pokemonTotalCount, myPokemonList, loading } = state;
+  // const addPokemon = (pokemon) => dispatch({ type: ADD_POKEMON, pokemon });
+  const catchPokemon = (pokemonCatched) => dispatch({ type: CATCH_POKEMON, pokemonCatched });
+  const handleLoading = (loading) => dispatch({ type: HANDLE_LOADING, loading });
+  const releasePokemon = (index) => dispatch({ type: RELEASE_POKEMON, index });
+  const getCatchFromStorage = (pokemonList) => dispatch({ type: GET_CATCHED_FROM_STORAGE, pokemonList });
   const initPokemons = (pokemons, count) => dispatch({ type: GET_INIT_POKEMONS, pokemons, count});
 
   const providerValue = {
     pokemons,
-    capturedPokemons,
+    myPokemonList,
     pokemonTotalCount,
-    // capture,
-    // release,
-    addPokemon,
+    loading,
+    handleLoading, 
+    releasePokemon,
+    catchPokemon,
+    getCatchFromStorage,
     initPokemons
   };
 

@@ -1,21 +1,30 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import HomePage from './pages/home';
 import PokemonPage from './pages/MyPokemon.jsx';
 import PokemonListRoute from './pages/PokeListRoute.jsx';
-import { PokemonProvider } from './pages/PokemonContext';
+import { PokemonContext } from './pages/PokemonContext';
+
+
+import Navbar from './navbar'
 
 const App = () => {
-
+  const { getCatchFromStorage } = useContext(PokemonContext);
+  // console.log(useContext(PokemonContext))
   useEffect(() => {
+    let storagedPokemon = localStorage.getItem('my-pokemon-list')
+    if(storagedPokemon){
+      getCatchFromStorage(JSON.parse(storagedPokemon))
+    }
   }, []);
 
   return (
-    <PokemonProvider>
-      <div className="container">
-        <div className="row body-app">
-          <div className="col-12 p-0 m-0">
+    <div>
+      <Navbar/>
+      <div className="container" style={{ height : '100vh'}}>
+        <div className="row body-app h-full mt-2">
+          <div className="col-12 p-0 m-0 h-full">
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route path="/poke-list" component={PokemonListRoute} />
@@ -24,7 +33,9 @@ const App = () => {
           </div>
         </div>
       </div>
-    </PokemonProvider>
+    </div>
+
+  
   );
 };
 
