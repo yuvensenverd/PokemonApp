@@ -54,10 +54,10 @@ const Pokemon = ({ data }) => {
                         showConfirmButton: true,
                         confirmButtonText: "Confirm",
                         preConfirm: (value) => {
-                            let listName = myPokemonList.map(
-                                (val) => val.nickname
+                            let listName = myPokemonList.map((val) =>
+                                val.nickname.toLowerCase()
                             );
-                            if (listName.indexOf(value) !== -1) {
+                            if (listName.indexOf(value.toLowerCase()) !== -1) {
                                 Swal.showValidationMessage(
                                     `nickname ${value} is already in use! please choose a different nickname!`
                                 );
