@@ -59,7 +59,7 @@ const Pokemon = ({ data }) => {
                             );
                             if (listName.indexOf(value) !== -1) {
                                 Swal.showValidationMessage(
-                                    `nickname ${data.nickname} is already in use! please choose a different nickname!`
+                                    `nickname ${value} is already in use! please choose a different nickname!`
                                 );
                             }
                         }
