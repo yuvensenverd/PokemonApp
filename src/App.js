@@ -19,7 +19,7 @@ const App = () => {
     }, []);
 
     return (
-        <div>
+        <div style={{ backgroundColor: "#eeeeee" }}>
             <Navbar />
             <div className="container" style={{ height: "100vh" }}>
                 <div className="row body-app h-full mt-2">

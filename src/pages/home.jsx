@@ -5,10 +5,13 @@ import backpack from "../images/backpack.png";
 
 const Home = () => {
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center h-full">
+        <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "80%" }}
+        >
             <h1 className="mb-4">Pokémon App</h1>
             <div className="d-flex flex-column justify-content-center align-items-center">
-                <div className="row">
+                <div className="row m-0">
                     <div className="col-md-6 mb-3">
                         <div className="d-flex flex-column justify-content-center align-items-center">
                             <Link

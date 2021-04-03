@@ -228,7 +228,7 @@ const Pokemon = ({ data }) => {
                     disableEdgeSwiping
                     withoutControls
                     slideIndex={value}
-                    height={"500px"}
+                    height={"auto"}
                     dragging={false}
                     swiping={false}
                     style={{ outline: 0 }}
@@ -258,7 +258,10 @@ const Pokemon = ({ data }) => {
                         {renderCatchButton()}
                         {renderPokemonStat(stats)}
                     </div>
-                    <div className="col-md-8">
+                    <div
+                        className="col-md-8 pb-4"
+                        style={{ backgroundColor: "#eeeeee" }}
+                    >
                         {renderPokemonTypes(types)}
                         {pokemonHeaderTabs()}
                         <div className="mt-4">
