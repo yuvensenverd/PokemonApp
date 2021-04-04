@@ -57,6 +57,11 @@ const Pokemon = ({ data }) => {
                             let listName = myPokemonList.map((val) =>
                                 val.nickname.toLowerCase()
                             );
+                            if (value.length <= 0) {
+                                Swal.showValidationMessage(
+                                    `please choose a nickname for your new pokemon!`
+                                );
+                            }
                             if (listName.indexOf(value.toLowerCase()) !== -1) {
                                 Swal.showValidationMessage(
                                     `nickname ${value} is already in use! please choose a different nickname!`
