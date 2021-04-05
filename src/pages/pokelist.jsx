@@ -38,7 +38,7 @@ const PokemonList = () => {
     useEffect(() => {
         const getPokemons = () => {
             handleLoading(true);
-            console.log(loading);
+            // console.log(loading);
             Axios.get(
                 `https://pokeapi.co/api/v2/pokemon?offset=${
                     (queryPage - 1) * limit
@@ -50,7 +50,7 @@ const PokemonList = () => {
                 })
                 .catch((err) => {
                     handleLoading(false);
-                    console.log(err);
+                    // console.log(err);
                 });
         };
 

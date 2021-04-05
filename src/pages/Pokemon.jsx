@@ -69,7 +69,7 @@ const Pokemon = ({ data }) => {
                             }
                         }
                     }).then((results2) => {
-                        console.log(results2);
+                        // console.log(results2);
                         if (results2.isConfirmed) {
                             const data = {
                                 nickname: results2.value,
