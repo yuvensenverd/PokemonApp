@@ -169,12 +169,6 @@ const Pokemon = ({ data }) => {
                                 wrapAround
                                 withoutControls
                                 swiping={true}
-                                renderCenterLeftControls={({ previousSlide }) =>
-                                    null
-                                }
-                                renderCenterRightControls={({ nextSlide }) =>
-                                    null
-                                }
                                 style={{ outline: "none" }}
                             >
                                 {printCarouselSprites(images)}
