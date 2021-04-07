@@ -33,25 +33,23 @@ const PokemonList = () => {
     } = useContext(PokemonContext);
     let totalPokemonOwned = myPokemonList.length;
     const totalpages = Math.ceil(pokemonTotalCount / limit);
-    //   console.log(pokemonTotalCount)
 
     useEffect(() => {
-        const getPokemons = () => {
+        const getPokemons = async () => {
             handleLoading(true);
-            // console.log(loading);
-            Axios.get(
-                `https://pokeapi.co/api/v2/pokemon?offset=${
-                    (queryPage - 1) * limit
-                }&limit=${limit}`
-            )
-                .then((res) => {
-                    handleLoading(false);
-                    initPokemons(res.data.results, res.data.count);
-                })
-                .catch((err) => {
-                    handleLoading(false);
-                    // console.log(err);
-                });
+            try {
+                let res = await Axios.get(
+                    `https://pokeapi.co/api/v2/pokemon?offset=${
+                        (queryPage - 1) * limit
+                    }&limit=${limit}`
+                );
+
+                handleLoading(false);
+                initPokemons(res.data.results, res.data.count);
+            } catch (err) {
+                console.log(err);
+                handleLoading(false);
+            }
         };
 
         getPokemons();

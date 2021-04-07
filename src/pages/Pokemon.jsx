@@ -10,14 +10,17 @@ import Swal from "sweetalert2";
 import Pagination from "@material-ui/lab/Pagination";
 import StatRating from "./StatRatings";
 import { PokemonContext } from "./PokemonContext";
+import { Redirect } from "react-router";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
 const Pokemon = ({ data }) => {
     const [value, setValue] = useState(0);
     const [movesListPage, setMovesListPage] = useState(1);
+    const [goToMyPokemon, setGoToMyPokemon] = useState(false);
     const { myPokemonList, catchPokemon } = useContext(PokemonContext);
     const movesListLimit = 10;
     const handleChange = (e, value) => {
-        // console.log(value)
         setValue(value);
     };
     if (!_.isEmpty(data)) {
@@ -26,7 +29,7 @@ const Pokemon = ({ data }) => {
 
         const onCatchClick = () => {
             let num = Math.random();
-            // let timerInterval;
+
             Swal.fire({
                 title: "Catching...",
                 imageUrl: `${pokeball}`,
@@ -45,7 +48,7 @@ const Pokemon = ({ data }) => {
                         imageWidth: 250,
                         imageHeight: 200,
                         imageAlt: "name",
-                        // title: ``,
+
                         input: "text",
                         inputAttributes: {
                             autocapitalize: "off"
@@ -69,7 +72,6 @@ const Pokemon = ({ data }) => {
                             }
                         }
                     }).then((results2) => {
-                        // console.log(results2);
                         if (results2.isConfirmed) {
                             const data = {
                                 nickname: results2.value,
@@ -77,18 +79,22 @@ const Pokemon = ({ data }) => {
                                 name,
                                 url
                             };
-
-                            // console.log(listName)
-                            // if(listName.indexOf(data.nickname) !== -1){
-                            //     window.alert(`nickname ${data.nickname} is already in use! please choose a different nickname!`)
-
-                            // }else {
                             catchPokemon(data);
-                            Swal.fire(
-                                "Success!",
-                                "You can now view your new pokemon in your list!",
-                                "success"
-                            );
+                            Swal.fire({
+                                icon: "success",
+                                title: "Success!",
+                                text:
+                                    "You can now view your new pokemon in your list!",
+                                showConfirmButton: true,
+                                confirmButtonText: "My Pokemon Page",
+                                showCancelButton: true,
+                                cancelButtonText: "Ok",
+                                cancelButtonColor: "#e74c3c"
+                            }).then((results2) => {
+                                if (results2.isConfirmed) {
+                                    setGoToMyPokemon(true);
+                                }
+                            });
                             // }
                         }
                     });
@@ -108,17 +114,71 @@ const Pokemon = ({ data }) => {
                 while (num.length < 4) num = "0" + num;
                 return num;
             };
+
+            const printCarouselSprites = (sprites) => {
+                let jsx = [];
+                for (let i = 0; i < Object.keys(sprites).length; i++) {
+                    if (
+                        sprites[Object.keys(sprites)[i]] !== null &&
+                        typeof sprites[Object.keys(sprites)[i]] === "string"
+                    ) {
+                        if (Object.keys(sprites)[i] === "front_default") {
+                            //FRONT DEFAULT ALWAYS AT 0 INDEX
+                            jsx.unshift(
+                                <img
+                                    src={sprites[Object.keys(sprites)[i]]}
+                                    height={150}
+                                    width={150}
+                                    alt={Object.keys(sprites)[i]}
+                                />
+                            );
+                        } else {
+                            jsx.push(
+                                <img
+                                    src={sprites[Object.keys(sprites)[i]]}
+                                    height={150}
+                                    width={150}
+                                    alt={Object.keys(sprites)[i]}
+                                />
+                            );
+                        }
+                    }
+                }
+                return jsx;
+            };
+
+            // console.log(imagesList);
             return (
                 <div className="pokemon-cards">
                     <div className="d-flex flex-column">
                         <h4 className="text-center">ID{printOrder(id)}</h4>
                         <div className="d-flex flex-row justify-content-center">
-                            <img
+                            {/* <img
                                 src={images.front_default}
                                 height={150}
                                 width={150}
                                 alt="pokemon_front_image"
-                            />
+                            /> */}
+                            <Carousel
+                                disableEdgeSwiping
+                                height={150}
+                                width={150}
+                                dragging={true}
+                                autoplay={true}
+                                autoplayInterval={4000}
+                                wrapAround
+                                withoutControls
+                                swiping={true}
+                                renderCenterLeftControls={({ previousSlide }) =>
+                                    null
+                                }
+                                renderCenterRightControls={({ nextSlide }) =>
+                                    null
+                                }
+                                style={{ outline: "none" }}
+                            >
+                                {printCarouselSprites(images)}
+                            </Carousel>
                         </div>
                         <h4 className="text-center">{name}</h4>
                     </div>
@@ -174,8 +234,6 @@ const Pokemon = ({ data }) => {
                             }}
                             value={value}
                             onChange={handleChange}
-                            // indicatorColor="primary"
-                            // textColor="primary"
                             variant="fullWidth"
                         >
                             <Tab label="Abilities" />
@@ -189,9 +247,8 @@ const Pokemon = ({ data }) => {
         const pokemonContent = (abilities, moves) => {
             const abilitiesContent = (abilities) => {
                 return (
-                    <div>
+                    <div style={{ outline: "none" }}>
                         {abilities.map((val, id) => {
-                            //val.ability.url for details
                             return (
                                 <div className="mb-2" key={id}>
                                     <h4>
@@ -213,7 +270,6 @@ const Pokemon = ({ data }) => {
                 return (
                     <div>
                         {data.map((val, id) => {
-                            //val.ability.url for details
                             return (
                                 <div className="mb-2" key={id}>
                                     <h5>
@@ -236,10 +292,10 @@ const Pokemon = ({ data }) => {
                     height={"auto"}
                     dragging={false}
                     swiping={false}
-                    style={{ outline: 0 }}
+                    style={{ outline: "none" }}
                 >
                     {abilitiesContent(abilities)}
-                    <div>
+                    <div style={{ outline: "none" }}>
                         {movesContent(moves)}
                         <div className="mt-3 d-flex flex-row justify-content-center align-items-center">
                             <Pagination
@@ -254,6 +310,10 @@ const Pokemon = ({ data }) => {
                 </Carousel>
             );
         };
+
+        if (goToMyPokemon) {
+            return <Redirect to="/poke-list/my-pokemon" />;
+        }
 
         return (
             <div className="">

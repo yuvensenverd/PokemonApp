@@ -3,7 +3,6 @@ const limit = 160;
 const numberOfStars = 8;
 
 const StatRating = ({ stat }) => {
-    // console.log(stat)
     return stat.map((val, id) => {
         return (
             <div className="d-flex flex-row align-items-center mb-2" key={id}>

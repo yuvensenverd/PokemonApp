@@ -10,7 +10,6 @@ const PokeListRoute = () => {
 
     return (
         <div className="h-full py-4">
-            {/* <h1>This is Poke List</h1> */}
             <Switch>
                 <Route exact path={`${path}`} component={PokeList} />
                 <Route path={`${path}/my-pokemon`} component={MyPokemon} />

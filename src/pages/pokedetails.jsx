@@ -7,23 +7,39 @@ import { ClipLoader } from "react-spinners";
 
 const PokemonDetails = () => {
     const [pokemonData, setPokemonData] = useState({});
+    // const [pokemonSkills, setPokemonSkills] = useState([]);
     const [dataInvalid, setDataInvalid] = useState(false);
     const { loading, handleLoading } = useContext(PokemonContext);
     const match = useRouteMatch();
     const { pokemon } = match.params;
 
+    // const getPokemonSkills = async (data) => {
+    //     let pokemon_skills = await Promise.all(
+    //         data.map(async (skills) => {
+    //             let res = Axios.get(skills.ability.url);
+    //             return res;
+    //         })
+    //     );
+    //     console.log(pokemon_skills);
+    // };
+
     useEffect(() => {
-        const getPokemons = () => {
+        const getPokemons = async () => {
             handleLoading(true);
-            Axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-                .then((res) => {
-                    handleLoading(false);
-                    setPokemonData(res);
-                })
-                .catch((err) => {
-                    setDataInvalid(true);
-                });
+            try {
+                let res = await Axios.get(
+                    `https://pokeapi.co/api/v2/pokemon/${pokemon}`
+                );
+                console.log(res);
+                // await getPokemonSkills(res.data.abilities);
+                handleLoading(false);
+                setPokemonData(res);
+            } catch (err) {
+                handleLoading(false);
+                setDataInvalid(true);
+            }
         };
+
         getPokemons();
     }, [pokemon]);
 
