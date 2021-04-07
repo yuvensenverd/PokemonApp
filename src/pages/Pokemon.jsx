@@ -153,12 +153,6 @@ const Pokemon = ({ data }) => {
                     <div className="d-flex flex-column">
                         <h4 className="text-center">ID{printOrder(id)}</h4>
                         <div className="d-flex flex-row justify-content-center">
-                            {/* <img
-                                src={images.front_default}
-                                height={150}
-                                width={150}
-                                alt="pokemon_front_image"
-                            /> */}
                             <Carousel
                                 disableEdgeSwiping
                                 height={150}
@@ -208,7 +202,6 @@ const Pokemon = ({ data }) => {
         };
 
         const renderPokemonTypes = (types) => {
-            // console.log(types)
             return <TypesLogo type={types} />;
         };
 
@@ -284,6 +277,7 @@ const Pokemon = ({ data }) => {
                     withoutControls
                     slideIndex={value}
                     height={"auto"}
+                    speed={0}
                     dragging={false}
                     swiping={false}
                     style={{ outline: "none" }}
