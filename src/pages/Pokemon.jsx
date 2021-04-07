@@ -130,6 +130,7 @@ const Pokemon = ({ data }) => {
                                     height={150}
                                     width={150}
                                     alt={Object.keys(sprites)[i]}
+                                    key={i}
                                 />
                             );
                         } else {
@@ -139,6 +140,7 @@ const Pokemon = ({ data }) => {
                                     height={150}
                                     width={150}
                                     alt={Object.keys(sprites)[i]}
+                                    key={i}
                                 />
                             );
                         }
@@ -155,8 +157,8 @@ const Pokemon = ({ data }) => {
                         <div className="d-flex flex-row justify-content-center">
                             <Carousel
                                 disableEdgeSwiping
-                                height={150}
-                                width={150}
+                                height={"150px"}
+                                width={"150px"}
                                 dragging={true}
                                 autoplay={true}
                                 autoplayInterval={4000}
