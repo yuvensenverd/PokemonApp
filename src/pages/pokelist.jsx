@@ -11,7 +11,6 @@ import Pagination from "@material-ui/lab/Pagination";
 import client from "../apollo/clientSetup";
 import { getPokemonList } from "../apollo/queries";
 import qs from "query-string";
-import { css, cx } from "@emotion/css";
 
 const PokemonList = () => {
     const match = useRouteMatch();

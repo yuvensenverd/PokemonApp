@@ -28,19 +28,25 @@ const PokemonDetails = () => {
     useEffect(() => {
         const apolloGetPokemon = async (name) => {
             handleLoading(true);
-            const { data: dataPokemon } = await client.query({
-                query: getPokemonDetails,
-                variables: {
-                    name: name
+            try {
+                const { data: dataPokemon } = await client.query({
+                    query: getPokemonDetails,
+                    variables: {
+                        name: name
+                    }
+                });
+                // console.log("----", dataPokemon);
+                handleLoading(false);
+                if (dataPokemon.pokemon.id) {
+                    setPokemonData(dataPokemon);
+                } else {
+                    setDataInvalid(true);
                 }
-            });
-
-            if (!dataPokemon) {
+                // console.log(dataPokemon);
+            } catch (err) {
                 handleLoading(false);
                 setDataInvalid(true);
             }
-            handleLoading(false);
-            setPokemonData(dataPokemon);
         };
         apolloGetPokemon(pokemon);
         // const getPokemons = async () => {
