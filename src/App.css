@@ -245,3 +245,16 @@
 .slider-slide.slide-visible.slide-current {
     outline: 0 !important;
 }
+
+.circle-owned {
+    position: absolute;
+    right: 35px;
+    background-color: #764abc;
+    border-radius: 50%;
+    color: white;
+    padding-left: 7px;
+    padding-right: 7px;
+    /* height: 20px;
+    width: 20px; */
+    font-weight: 500;
+}

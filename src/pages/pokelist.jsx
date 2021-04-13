@@ -82,11 +82,23 @@ const PokemonList = () => {
     }, [queryPage]);
 
     const renderPokemon = ({ list }) => {
+        const checkNumberOwned = (name) => {
+            console.log(name);
+            let count = 0;
+            for (let i = 0; i < myPokemonList.length; i++) {
+                console.log(pokemons[i].name);
+                if (myPokemonList[i].name === name) {
+                    count++;
+                }
+            }
+            return count;
+        };
         const jsUcFirst = (string) => {
             return string.charAt(0).toUpperCase() + string.slice(1);
         };
         return list.map((pokemon, id) => {
             let { details } = pokemon;
+            let totalOwned = checkNumberOwned(pokemon.name);
             return (
                 <div
                     key={id}
@@ -101,6 +113,12 @@ const PokemonList = () => {
                     >
                         <div className="d-flex flex-row justify-content-center w-full">
                             <div className="pokemon-list">
+                                {totalOwned > 0 ? (
+                                    <div className="circle-owned">
+                                        {totalOwned}x
+                                    </div>
+                                ) : null}
+
                                 <div className="d-flex flex-column align-items-center">
                                     <img
                                         src={details.sprites.front_default}
