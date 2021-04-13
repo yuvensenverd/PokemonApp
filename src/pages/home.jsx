@@ -7,7 +7,7 @@ const Home = () => {
     return (
         <div
             className="d-flex flex-column justify-content-center align-items-center"
-            style={{ height: "80%" }}
+            style={{ height: "80vh" }}
         >
             <h1 className="mb-4">Pokémon App</h1>
             <div className="d-flex flex-column justify-content-center align-items-center">

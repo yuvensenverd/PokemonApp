@@ -21,7 +21,10 @@ const App = () => {
     return (
         <div style={{ backgroundColor: "#eeeeee" }}>
             <Navbar />
-            <div className="container" style={{ height: "100vh" }}>
+            <div
+                className="container"
+                style={{ minHeight: "100vh", maxHeight: "auto" }}
+            >
                 <div className="row body-app h-full mt-2">
                     <div className="col-12 p-0 m-0 h-full">
                         <Switch>

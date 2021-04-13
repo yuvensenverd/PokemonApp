@@ -5,9 +5,11 @@ import { ClipLoader } from "react-spinners";
 import pokeball from "../images/pokeball.png";
 import { PokemonContext } from "./PokemonContext";
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import TypesLogo from "./TypesLogo.jsx";
+
+// import List from "@material-ui/core/List";
+// import ListItem from "@material-ui/core/ListItem";
+// import ListItemText from "@material-ui/core/ListItemText";
 
 import Pagination from "@material-ui/lab/Pagination";
 import qs from "query-string";
@@ -20,7 +22,7 @@ const PokemonList = () => {
     const queryPage = qs.parse(location.search).page
         ? qs.parse(location.search).page
         : 1;
-    const limit = 10;
+    const limit = 12;
 
     //   const [page, setPage] = useState(queryPage)
     const {
@@ -34,6 +36,21 @@ const PokemonList = () => {
     let totalPokemonOwned = myPokemonList.length;
     const totalpages = Math.ceil(pokemonTotalCount / limit);
 
+    const getPokemonDetails = async (data) => {
+        let pokemonDetails = await Promise.all(
+            data.map(async (pokemon) => {
+                let res = Axios.get(pokemon.url);
+                return res;
+            })
+        );
+        // console.log(pokemonDetails);
+        return pokemonDetails;
+    };
+
+    const renderPokemonTypes = (types) => {
+        return <TypesLogo type={types} />;
+    };
+
     useEffect(() => {
         const getPokemons = async () => {
             handleLoading(true);
@@ -43,9 +60,18 @@ const PokemonList = () => {
                         (queryPage - 1) * limit
                     }&limit=${limit}`
                 );
+                console.log(res.data);
+
+                let details = await getPokemonDetails(res.data.results);
+                console.log(details);
+
+                let concat_array = res.data.results.map((data, id) => {
+                    return { ...data, details: { ...details[id].data } };
+                });
+                console.log(concat_array);
 
                 handleLoading(false);
-                initPokemons(res.data.results, res.data.count);
+                initPokemons(concat_array, res.data.count);
             } catch (err) {
                 console.log(err);
                 handleLoading(false);
@@ -56,26 +82,40 @@ const PokemonList = () => {
     }, [queryPage]);
 
     const renderPokemon = ({ list }) => {
+        const jsUcFirst = (string) => {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        };
         return list.map((pokemon, id) => {
+            let { details } = pokemon;
             return (
-                <div key={id}>
+                <div
+                    key={id}
+                    className="col-xl-3 col-lg-4 col-md-6 mb-4 mx-3 mx-md-0"
+                >
                     <Link
                         to={`${path}/${pokemon.name}`}
-                        style={{ textDecoration: "none", color: "#010119" }}
+                        style={{
+                            textDecoration: "none",
+                            color: "#010119"
+                        }}
                     >
-                        <ListItem
-                            button
-                            style={{
-                                border: "1px solid #b3b3b3",
-                                width: "200px"
-                            }}
-                        >
-                            <ListItemText
-                                primary={`${
-                                    (queryPage - 1) * limit + id + 1 + ". "
-                                }${pokemon.name}`}
-                            />
-                        </ListItem>
+                        <div className="d-flex flex-row justify-content-center w-full">
+                            <div className="pokemon-list">
+                                <div className="d-flex flex-column align-items-center">
+                                    <img
+                                        src={details.sprites.front_default}
+                                        height={135}
+                                        width={135}
+                                        alt={id}
+                                        key={id}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <h5 className="mt-2">{jsUcFirst(pokemon.name)}</h5>
+                        <div className="mb-4">
+                            {renderPokemonTypes(details.types)}
+                        </div>
                     </Link>
                 </div>
             );
@@ -96,7 +136,7 @@ const PokemonList = () => {
 
     return (
         <div className="container h-full">
-            <div className="d-flex flex-column justify-content-center align-items-center h-full">
+            <div className="d-flex flex-column align-items-center h-full mt-4">
                 <div className="d-flex flex-row">
                     <img
                         src={pokeball}
@@ -109,11 +149,12 @@ const PokemonList = () => {
                         Total Pokemon Owned : {totalPokemonOwned}
                     </div>
                 </div>
-                <h1 className="mt-3 mb-3">Pokémon List</h1>
+                <h1 className="mt-3 mb-5">Pokémon List</h1>
 
-                <List component="nav" aria-label="secondary mailbox folders">
+                <div className="row mx-5 mx-md-0">
                     {renderPokemon({ list: pokemons })}
-                </List>
+                </div>
+
                 <div className="mt-4">
                     <Pagination
                         count={totalpages}

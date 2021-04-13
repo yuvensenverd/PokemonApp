@@ -315,7 +315,11 @@ const Pokemon = ({ data }) => {
                         className="col-md-8 pb-4"
                         style={{ backgroundColor: "#eeeeee" }}
                     >
-                        {renderPokemonTypes(types)}
+                        <div className="mb-4 mt-4">
+                            <h3>Type</h3>
+
+                            {renderPokemonTypes(types)}
+                        </div>
                         {pokemonHeaderTabs()}
                         <div className="mt-4">
                             {pokemonContent(abilities, moves)}

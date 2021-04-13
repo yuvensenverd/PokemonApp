@@ -53,6 +53,14 @@
     background-color: #b3b3b3;
 }
 
+.pokemon-list {
+    border-radius: 8px;
+    padding: 1rem;
+    width: 100%;
+    border: 1px solid black;
+    background-color: #dcdcdc;
+}
+
 .catch-button {
     display: flex;
     padding-top: 0.8rem;
