@@ -7,14 +7,11 @@ import { PokemonContext } from "./PokemonContext";
 
 // import TypesLogo from "./TypesLogo.jsx";
 
-// import List from "@material-ui/core/List";
-// import ListItem from "@material-ui/core/ListItem";
-// import ListItemText from "@material-ui/core/ListItemText";
-
 import Pagination from "@material-ui/lab/Pagination";
 import client from "../apollo/clientSetup";
 import { getPokemonList } from "../apollo/queries";
 import qs from "query-string";
+import { css, cx } from "@emotion/css";
 
 const PokemonList = () => {
     const match = useRouteMatch();
@@ -25,8 +22,6 @@ const PokemonList = () => {
         ? qs.parse(location.search).page
         : 1;
     const limit = 12;
-
-    //   const [page, setPage] = useState(queryPage)
     const {
         pokemonTotalCount,
         pokemons,
@@ -35,7 +30,6 @@ const PokemonList = () => {
         loading,
         handleLoading
     } = useContext(PokemonContext);
-    // let totalPokemonOwned = myPokemonList.length;
     const totalpages = Math.ceil(pokemonTotalCount / limit);
 
     // const getPokemonDetails = async (data) => {
@@ -120,7 +114,7 @@ const PokemonList = () => {
             return (
                 <div
                     key={id}
-                    className="col-xl-3 col-lg-4 col-md-6 mb-4 mx-3 mx-md-0"
+                    className="col-xl-3 col-lg-4 col-md-6 mb-4 mx-3 mx-md-0 "
                 >
                     <Link
                         to={`${path}/${pokemon.name}`}
@@ -130,7 +124,7 @@ const PokemonList = () => {
                         }}
                     >
                         <div className="d-flex flex-row justify-content-center w-full">
-                            <div className="pokemon-list">
+                            <div className="pokemon-list custom-box">
                                 {totalOwned ? (
                                     <div className="circle-owned">
                                         {totalOwned}x
@@ -139,9 +133,8 @@ const PokemonList = () => {
 
                                 <div className="d-flex flex-column align-items-center">
                                     <img
+                                        className="pokemon-front-image"
                                         src={image}
-                                        height={135}
-                                        width={135}
                                         alt={id}
                                         key={id}
                                     />
@@ -200,7 +193,7 @@ const PokemonList = () => {
                 </div> */}
                 <h1 className="mt-3 mb-5">Pokémon List</h1>
 
-                <div className="row mx-5 mx-md-0">
+                <div className="row mx-4 mx-md-0 " style={{ width: "100%" }}>
                     {renderPokemon({ list: pokemons })}
                 </div>
 

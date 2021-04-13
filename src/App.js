@@ -26,7 +26,11 @@ const App = () => {
                 style={{ minHeight: "100vh", maxHeight: "auto" }}
             >
                 <div className="row body-app h-full mt-2">
-                    <div className="col-12 p-0 m-0 h-full">
+                    <div
+                        className="col-12 pr-0 pl-0 pb-0 m-0 h-full "
+                        style={{ paddingTop: "64px" }}
+                    >
+                        {/* 64px for navbar height */}
                         <Switch>
                             <Route exact path="/" component={HomePage} />
                             <Route

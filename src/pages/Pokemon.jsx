@@ -284,18 +284,20 @@ const Pokemon = ({ pokemon }) => {
                 );
                 return (
                     <div>
-                        {pokemon.map((val, id) => {
-                            return (
-                                <div className="mb-2" key={id}>
-                                    <h5>
-                                        {(movesListPage - 1) * 10 +
-                                            (id + 1) +
-                                            ". "}
-                                        {val.move.name}
-                                    </h5>
-                                </div>
-                            );
-                        })}
+                        {pokemon.length > 0
+                            ? pokemon.map((val, id) => {
+                                  return (
+                                      <div className="mb-2" key={id}>
+                                          <h5>
+                                              {(movesListPage - 1) * 10 +
+                                                  (id + 1) +
+                                                  ". "}
+                                              {val.move.name}
+                                          </h5>
+                                      </div>
+                                  );
+                              })
+                            : "No Moves."}
                     </div>
                 );
             };
@@ -313,15 +315,21 @@ const Pokemon = ({ pokemon }) => {
                     {abilitiesContent(abilities)}
                     <div style={{ outline: "none" }}>
                         {movesContent(moves)}
-                        <div className="mt-3 d-flex flex-row justify-content-center align-items-center">
-                            <Pagination
-                                count={Math.ceil(moves.length / movesListLimit)}
-                                page={movesListPage}
-                                onChange={(e, page) => setMovesListPage(page)}
-                                color="secondary"
-                                siblingCount={1}
-                            />
-                        </div>
+                        {moves.length > 0 ? (
+                            <div className="mt-3 d-flex flex-row justify-content-center align-items-center">
+                                <Pagination
+                                    count={Math.ceil(
+                                        moves.length / movesListLimit
+                                    )}
+                                    page={movesListPage}
+                                    onChange={(e, page) =>
+                                        setMovesListPage(page)
+                                    }
+                                    color="secondary"
+                                    siblingCount={1}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </Carousel>
             );

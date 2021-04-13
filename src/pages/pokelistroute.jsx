@@ -9,7 +9,7 @@ const PokeListRoute = () => {
     const path = match.path;
 
     return (
-        <div className="h-full py-4">
+        <div className="h-full py-md-4 py-2">
             <Switch>
                 <Route exact path={`${path}`} component={PokeList} />
                 <Route path={`${path}/my-pokemon`} component={MyPokemon} />

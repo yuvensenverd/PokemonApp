@@ -206,6 +206,24 @@
     height: 100vh;
 }
 
+.custom-box {
+    transition: box-shadow 0.3s;
+}
+
+.custom-box:hover {
+    box-shadow: 0 0 22px rgba(33, 33, 33, 0.5);
+}
+
+.pokemon-front-image {
+    height: 135px;
+    width: 135px;
+    transition: transform 0.3s;
+}
+
+.custom-box:hover .pokemon-front-image {
+    transform: scale(1.15);
+}
+
 .home-menu {
     display: flex;
     flex-direction: column;

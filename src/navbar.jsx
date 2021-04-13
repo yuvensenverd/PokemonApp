@@ -8,7 +8,7 @@ import Pikachu from "./images/pikachu.png";
 const Navbar = () => {
     const { myPokemonList } = useContext(PokemonContext);
     return (
-        <AppBar position="static" style={{ backgroundColor: "#343a40" }}>
+        <AppBar position="fixed" style={{ backgroundColor: "#343a40" }}>
             <Toolbar>
                 <div className="d-flex flex-row w-full">
                     <Link
