@@ -50,7 +50,7 @@ const MyPokemon = () => {
                                 </div>
                                 <div className="d-flex flex-column justify-content-center ml-auto pr-4">
                                     <RemoveCircleIcon
-                                        fontSize={"25px"}
+                                        // fontSize={"25px"}
                                         htmlColor={"#541a1c"}
                                         className="cursor-pointer"
                                         onClick={() =>
