@@ -6,6 +6,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 https://pokemonapp-b01ee.web.app/
 
+## Using
+
+- Create React App
+- GraphQL PokeAPI
+- React Hooks
+- React Context
+
 ## Available Scripts
 
 In the project directory, you can run:
