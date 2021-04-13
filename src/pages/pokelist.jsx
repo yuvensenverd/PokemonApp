@@ -60,15 +60,15 @@ const PokemonList = () => {
                         (queryPage - 1) * limit
                     }&limit=${limit}`
                 );
-                console.log(res.data);
+                // console.log(res.data);
 
                 let details = await getPokemonDetails(res.data.results);
-                console.log(details);
+                // console.log(details);
 
                 let concat_array = res.data.results.map((data, id) => {
                     return { ...data, details: { ...details[id].data } };
                 });
-                console.log(concat_array);
+                // console.log(concat_array);
 
                 handleLoading(false);
                 initPokemons(concat_array, res.data.count);
