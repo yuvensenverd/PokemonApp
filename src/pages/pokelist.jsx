@@ -165,7 +165,7 @@ const PokemonList = () => {
                 </div>
             </div> */}
             <div className="d-flex flex-column align-items-center h-full mt-4">
-                <div className="d-flex flex-row">
+                {/* <div className="d-flex flex-row">
                     <img
                         src={pokeball}
                         width={"25px"}
@@ -176,7 +176,7 @@ const PokemonList = () => {
                     <div className="text-right">
                         Total Pokemon Owned : {totalPokemonOwned}
                     </div>
-                </div>
+                </div> */}
                 <h1 className="mt-3 mb-5">Pokémon List</h1>
 
                 <div className="row mx-5 mx-md-0">
