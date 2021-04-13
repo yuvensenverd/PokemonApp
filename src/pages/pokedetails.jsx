@@ -4,6 +4,8 @@ import Axios from "axios";
 import Pokemon from "./Pokemon.jsx";
 import { PokemonContext } from "./PokemonContext";
 import { ClipLoader } from "react-spinners";
+import client from "../apollo/clientSetup";
+import { getPokemonDetails } from "../apollo/queries";
 
 const PokemonDetails = () => {
     const [pokemonData, setPokemonData] = useState({});
@@ -24,16 +26,38 @@ const PokemonDetails = () => {
     // };
 
     useEffect(() => {
+        const apolloGetPokemon = async (name) => {
+            handleLoading(true);
+            const { data: dataPokemon } = await client.query({
+                query: getPokemonDetails,
+                variables: {
+                    name: name
+                }
+            });
+
+            if (!dataPokemon) {
+                handleLoading(false);
+                setDataInvalid(true);
+            }
+            // console.log(dataPokemon);
+            handleLoading(false);
+            setPokemonData(dataPokemon);
+
+            // const paramsMoves = dataPokemon.pokemon.moves.map((item) => {
+            //     return item.move.name;
+            // });
+        };
+        apolloGetPokemon(pokemon);
         const getPokemons = async () => {
             handleLoading(true);
             try {
                 let res = await Axios.get(
                     `https://pokeapi.co/api/v2/pokemon/${pokemon}`
                 );
-                // console.log(res);
+
                 // await getPokemonSkills(res.data.abilities);
-                handleLoading(false);
-                setPokemonData(res);
+                // handleLoading(false);
+                // setPokemonData(res);
             } catch (err) {
                 handleLoading(false);
                 setDataInvalid(true);
@@ -54,12 +78,12 @@ const PokemonDetails = () => {
             </div>
         );
     }
-
+    // console.log(pokemonData);
     return (
         <div className="d-flex flex-column ">
             <h1 className="text-center">Pokémon Info</h1>
             <div className="py-3">
-                <Pokemon data={pokemonData} />
+                <Pokemon pokemon={pokemonData} />
             </div>
         </div>
     );

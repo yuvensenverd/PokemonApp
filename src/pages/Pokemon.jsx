@@ -12,7 +12,7 @@ import StatRating from "./StatRatings";
 import { PokemonContext } from "./PokemonContext";
 import { Redirect } from "react-router";
 
-const Pokemon = ({ data }) => {
+const Pokemon = ({ pokemon }) => {
     const [value, setValue] = useState(0);
     const [movesListPage, setMovesListPage] = useState(1);
     const [goToMyPokemon, setGoToMyPokemon] = useState(false);
@@ -21,9 +21,19 @@ const Pokemon = ({ data }) => {
     const handleChange = (e, value) => {
         setValue(value);
     };
-    if (!_.isEmpty(data)) {
-        const { sprites, moves, types, name, id, abilities, stats } = data.data;
-        const { url } = data.config;
+    // console.log(pokemon);
+    if (!_.isEmpty(pokemon)) {
+        // console.log(pokemon);
+        const {
+            sprites,
+            moves,
+            types,
+            name,
+            id,
+            abilities,
+            stats
+        } = pokemon.pokemon;
+        // const { url } = pokemon.config;
 
         const onCatchClick = () => {
             let num = Math.random();
@@ -74,8 +84,7 @@ const Pokemon = ({ data }) => {
                             const data = {
                                 nickname: results2.value,
                                 avatar: sprites.front_default,
-                                name,
-                                url
+                                name
                             };
                             catchPokemon(data);
                             Swal.fire({
@@ -134,27 +143,29 @@ const Pokemon = ({ data }) => {
                         sprites[Object.keys(sprites)[i]] !== null &&
                         typeof sprites[Object.keys(sprites)[i]] === "string"
                     ) {
-                        if (Object.keys(sprites)[i] === "front_default") {
-                            //FRONT DEFAULT ALWAYS AT 0 INDEX
-                            jsx.unshift(
-                                <img
-                                    src={sprites[Object.keys(sprites)[i]]}
-                                    height={150}
-                                    width={150}
-                                    alt={Object.keys(sprites)[i]}
-                                    key={i}
-                                />
-                            );
-                        } else {
-                            jsx.push(
-                                <img
-                                    src={sprites[Object.keys(sprites)[i]]}
-                                    height={150}
-                                    width={150}
-                                    alt={Object.keys(sprites)[i]}
-                                    key={i}
-                                />
-                            );
+                        if (Object.keys(sprites)[i] !== "__typename") {
+                            if (Object.keys(sprites)[i] === "front_default") {
+                                //FRONT DEFAULT ALWAYS AT 0 INDEX
+                                jsx.unshift(
+                                    <img
+                                        src={sprites[Object.keys(sprites)[i]]}
+                                        height={150}
+                                        width={150}
+                                        alt={Object.keys(sprites)[i]}
+                                        key={i}
+                                    />
+                                );
+                            } else {
+                                jsx.push(
+                                    <img
+                                        src={sprites[Object.keys(sprites)[i]]}
+                                        height={150}
+                                        width={150}
+                                        alt={Object.keys(sprites)[i]}
+                                        key={i}
+                                    />
+                                );
+                            }
                         }
                     }
                 }
@@ -248,15 +259,18 @@ const Pokemon = ({ data }) => {
         const pokemonContent = (abilities, moves) => {
             const abilitiesContent = (abilities) => {
                 return (
-                    <div style={{ outline: "none" }}>
+                    <div
+                        style={{ outline: "none" }}
+                        className="d-flex flex-column"
+                    >
                         {abilities.map((val, id) => {
                             return (
-                                <div className="mb-2" key={id}>
-                                    <h4>
+                                <span className="mb-2 " key={id}>
+                                    <h5>
                                         {id + 1 + ". "}
                                         {val.ability.name}
-                                    </h4>
-                                </div>
+                                    </h5>
+                                </span>
                             );
                         })}
                     </div>
@@ -264,13 +278,13 @@ const Pokemon = ({ data }) => {
             };
 
             const movesContent = (moves) => {
-                data = moves.slice(
+                pokemon = moves.slice(
                     (movesListPage - 1) * movesListLimit,
                     movesListPage * movesListLimit
                 );
                 return (
                     <div>
-                        {data.map((val, id) => {
+                        {pokemon.map((val, id) => {
                             return (
                                 <div className="mb-2" key={id}>
                                     <h5>

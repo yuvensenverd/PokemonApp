@@ -1,17 +1,19 @@
-import Axios from "axios";
+// import Axios from "axios";
 import React, { useEffect, useContext } from "react";
 import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import pokeball from "../images/pokeball.png";
+// import pokeball from "../images/pokeball.png";
 import { PokemonContext } from "./PokemonContext";
 
-import TypesLogo from "./TypesLogo.jsx";
+// import TypesLogo from "./TypesLogo.jsx";
 
 // import List from "@material-ui/core/List";
 // import ListItem from "@material-ui/core/ListItem";
 // import ListItemText from "@material-ui/core/ListItemText";
 
 import Pagination from "@material-ui/lab/Pagination";
+import client from "../apollo/clientSetup";
+import { getPokemonList } from "../apollo/queries";
 import qs from "query-string";
 
 const PokemonList = () => {
@@ -33,52 +35,70 @@ const PokemonList = () => {
         loading,
         handleLoading
     } = useContext(PokemonContext);
-    let totalPokemonOwned = myPokemonList.length;
+    // let totalPokemonOwned = myPokemonList.length;
     const totalpages = Math.ceil(pokemonTotalCount / limit);
 
-    const getPokemonDetails = async (data) => {
-        let pokemonDetails = await Promise.all(
-            data.map(async (pokemon) => {
-                let res = Axios.get(pokemon.url);
-                return res;
-            })
-        );
-        // console.log(pokemonDetails);
-        return pokemonDetails;
-    };
+    // const getPokemonDetails = async (data) => {
+    //     let pokemonDetails = await Promise.all(
+    //         data.map(async (pokemon) => {
+    //             let res = Axios.get(pokemon.url);
+    //             return res;
+    //         })
+    //     );
+    //     // console.log(pokemonDetails);
+    //     return pokemonDetails;
+    // };
 
-    const renderPokemonTypes = (types) => {
-        return <TypesLogo type={types} />;
-    };
+    // const renderPokemonTypes = (types) => {
+    //     return <TypesLogo type={types} />;
+    // };
 
     useEffect(() => {
-        const getPokemons = async () => {
+        const apiGetPokemon = async () => {
             handleLoading(true);
-            try {
-                let res = await Axios.get(
-                    `https://pokeapi.co/api/v2/pokemon?offset=${
-                        (queryPage - 1) * limit
-                    }&limit=${limit}`
-                );
-                // console.log(res.data);
+            const { data } = await client.query({
+                query: getPokemonList,
+                variables: {
+                    offset: (queryPage - 1) * limit,
+                    limit: limit
+                }
+            });
 
-                let details = await getPokemonDetails(res.data.results);
-                // console.log(details);
-
-                let concat_array = res.data.results.map((data, id) => {
-                    return { ...data, details: { ...details[id].data } };
-                });
-                // console.log(concat_array);
-
-                handleLoading(false);
-                initPokemons(concat_array, res.data.count);
-            } catch (err) {
-                console.log(err);
+            if (data) {
+                const { pokemons } = data;
+                // console.log(data);
+                initPokemons(pokemons.results, pokemons.count);
                 handleLoading(false);
             }
         };
+        apiGetPokemon();
+        // const getPokemons = async () => {
+        //     handleLoading(true);
+        //     try {
+        //         let res = await Axios.get(
+        //             `https://pokeapi.co/api/v2/pokemon?offset=${
+        //                 (queryPage - 1) * limit
+        //             }&limit=${limit}`
+        //         );
+        //         // console.log(res.data);
 
-        getPokemons();
+        //         let details = await getPokemonDetails(res.data.results);
+        //         // console.log(details);
+
+        //         let concat_array = res.data.results.map((data, id) => {
+        //             return { ...data, details: { ...details[id].data } };
+        //         });
+        //         // console.log(concat_array);
+
+        //         handleLoading(false);
+        //         initPokemons(concat_array, res.data.count);
+        //     } catch (err) {
+        //         console.log(err);
+        //         handleLoading(false);
+        //     }
+        // };
+
+        // getPokemons();
     }, [queryPage]);
 
     const renderPokemon = ({ list }) => {
@@ -94,7 +114,8 @@ const PokemonList = () => {
             return string.charAt(0).toUpperCase() + string.slice(1);
         };
         return list.map((pokemon, id) => {
-            let { details } = pokemon;
+            // console.log(pokemon);
+            let { image } = pokemon;
             let totalOwned = myList[pokemon.name];
             return (
                 <div
@@ -118,7 +139,7 @@ const PokemonList = () => {
 
                                 <div className="d-flex flex-column align-items-center">
                                     <img
-                                        src={details.sprites.front_default}
+                                        src={image}
                                         height={135}
                                         width={135}
                                         alt={id}
@@ -128,9 +149,9 @@ const PokemonList = () => {
                             </div>
                         </div>
                         <h5 className="mt-2">{jsUcFirst(pokemon.name)}</h5>
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                             {renderPokemonTypes(details.types)}
-                        </div>
+                        </div> */}
                     </Link>
                 </div>
             );
