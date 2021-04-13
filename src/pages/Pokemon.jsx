@@ -102,6 +102,20 @@ const Pokemon = ({ data }) => {
                         "Unfortunate! Keep trying!",
                         "error"
                     );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Failed!",
+                        text: "Unfortunate :( keep trying !",
+                        showConfirmButton: true,
+                        confirmButtonText: "Try again",
+                        showCancelButton: true,
+                        cancelButtonText: "Ok",
+                        cancelButtonColor: "#e74c3c"
+                    }).then((results2) => {
+                        if (results2.isConfirmed) {
+                            onCatchClick();
+                        }
+                    });
                 }
             });
         };

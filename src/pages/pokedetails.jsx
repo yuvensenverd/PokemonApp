@@ -30,7 +30,7 @@ const PokemonDetails = () => {
                 let res = await Axios.get(
                     `https://pokeapi.co/api/v2/pokemon/${pokemon}`
                 );
-                console.log(res);
+                // console.log(res);
                 // await getPokemonSkills(res.data.abilities);
                 handleLoading(false);
                 setPokemonData(res);

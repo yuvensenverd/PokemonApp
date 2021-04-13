@@ -136,6 +136,19 @@ const PokemonList = () => {
 
     return (
         <div className="container h-full">
+            {/* <div className="d-flex flex-row justify-content-center">
+                <div className="mb-4 d-block d-md-none ">
+                    <Pagination
+                        count={totalpages}
+                        page={parseInt(queryPage)}
+                        onChange={(e, page) =>
+                            handleRoute(`${path}?page=${page}`, page)
+                        }
+                        color="secondary"
+                        siblingCount={1}
+                    />
+                </div>
+            </div> */}
             <div className="d-flex flex-column align-items-center h-full mt-4">
                 <div className="d-flex flex-row">
                     <img
