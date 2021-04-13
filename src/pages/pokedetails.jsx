@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
-import Axios from "axios";
+// import Axios from "axios";
 import Pokemon from "./Pokemon.jsx";
 import { PokemonContext } from "./PokemonContext";
 import { ClipLoader } from "react-spinners";
@@ -39,32 +39,27 @@ const PokemonDetails = () => {
                 handleLoading(false);
                 setDataInvalid(true);
             }
-            // console.log(dataPokemon);
             handleLoading(false);
             setPokemonData(dataPokemon);
-
-            // const paramsMoves = dataPokemon.pokemon.moves.map((item) => {
-            //     return item.move.name;
-            // });
         };
         apolloGetPokemon(pokemon);
-        const getPokemons = async () => {
-            handleLoading(true);
-            try {
-                let res = await Axios.get(
-                    `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-                );
+        // const getPokemons = async () => {
+        //     handleLoading(true);
+        //     try {
+        //         let res = await Axios.get(
+        //             `https://pokeapi.co/api/v2/pokemon/${pokemon}`
+        //         );
 
-                // await getPokemonSkills(res.data.abilities);
-                // handleLoading(false);
-                // setPokemonData(res);
-            } catch (err) {
-                handleLoading(false);
-                setDataInvalid(true);
-            }
-        };
+        //         // await getPokemonSkills(res.data.abilities);
+        //         // handleLoading(false);
+        //         // setPokemonData(res);
+        //     } catch (err) {
+        //         handleLoading(false);
+        //         setDataInvalid(true);
+        //     }
+        // };
 
-        getPokemons();
+        // getPokemons();
     }, [pokemon]);
 
     if (dataInvalid) {

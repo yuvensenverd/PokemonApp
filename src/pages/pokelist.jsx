@@ -165,32 +165,7 @@ const PokemonList = () => {
 
     return (
         <div className="container h-full">
-            {/* <div className="d-flex flex-row justify-content-center">
-                <div className="mb-4 d-block d-md-none ">
-                    <Pagination
-                        count={totalpages}
-                        page={parseInt(queryPage)}
-                        onChange={(e, page) =>
-                            handleRoute(`${path}?page=${page}`, page)
-                        }
-                        color="secondary"
-                        siblingCount={1}
-                    />
-                </div>
-            </div> */}
             <div className="d-flex flex-column align-items-center h-full mt-4">
-                {/* <div className="d-flex flex-row">
-                    <img
-                        src={pokeball}
-                        width={"25px"}
-                        height={"25px"}
-                        className="mr-2"
-                        alt="pokeball"
-                    />
-                    <div className="text-right">
-                        Total Pokemon Owned : {totalPokemonOwned}
-                    </div>
-                </div> */}
                 <h1 className="mt-3 mb-5">Pokémon List</h1>
 
                 <div className="row mx-4 mx-md-0 " style={{ width: "100%" }}>

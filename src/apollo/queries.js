@@ -55,25 +55,3 @@ export const getPokemonDetails = gql`
         }
     }
 `;
-
-// export const queryPokemonMoves = gql`
-//     query moves(
-//         $move1: String!
-//         $move2: String!
-//         $move3: String!
-//         $move4: String!
-//     ) {
-//         move1: move(move: $move1) {
-//             response
-//         }
-//         move2: move(move: $move2) {
-//             response
-//         }
-//         move3: move(move: $move3) {
-//             response
-//         }
-//         move4: move(move: $move4) {
-//             response
-//         }
-//     }
-// `;
