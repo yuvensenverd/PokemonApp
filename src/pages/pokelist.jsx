@@ -20,7 +20,7 @@ const PokemonList = () => {
     const queryPage = qs.parse(location.search).page
         ? qs.parse(location.search).page
         : 1;
-    const limit = 12;
+    const limit = 18;
     const {
         pokemonTotalCount,
         pokemons,
@@ -113,7 +113,7 @@ const PokemonList = () => {
             return (
                 <div
                     key={id}
-                    className="col-xl-3 col-lg-4 col-md-6 mb-4 mx-3 mx-md-0 "
+                    className="col-xl-2 col-lg-3 col-md-6 mb-4 mx-3 mx-md-0 px-md-2"
                 >
                     <Link
                         to={`${path}/${pokemon.name}`}

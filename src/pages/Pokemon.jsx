@@ -342,13 +342,13 @@ const Pokemon = ({ pokemon }) => {
         return (
             <div className="">
                 <div className="row m-0">
-                    <div className="col-md-4">
+                    <div className="col-lg-4">
                         {renderPokemonCards(sprites, name)}
                         {renderCatchButton()}
                         {renderPokemonStat(stats)}
                     </div>
                     <div
-                        className="col-md-8 pb-4"
+                        className="col-lg-8 pb-4"
                         style={{ backgroundColor: "#eeeeee" }}
                     >
                         <div className="mb-4 mt-4">
